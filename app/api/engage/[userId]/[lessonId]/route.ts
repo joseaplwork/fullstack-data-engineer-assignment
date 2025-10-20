@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { EngagementSchema } from "@/models";
 import { ObjectId } from "mongodb";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   _: NextRequest,
@@ -12,8 +12,8 @@ export async function GET(
 
   const engagement = EngagementSchema.parse({
     _id: new ObjectId(),
-    userId,
-    courseId,
+    userId: new ObjectId(userId),
+    courseId: new ObjectId(courseId),
     timestamp: new Date().toISOString(),
   });
 

@@ -42,7 +42,7 @@ Additional endpoints for debugging purposes:
 
 ## Tasks
 
-1. User Engagement Table Improvement:
+1. [x] User Engagement Table Improvement:
 
    - In the dashboard (app/page.tsx), the User Engagement table currently contains User Id and Course Id as the first two columns.
    - Modify it to show user name and course title in the table instead of ids.

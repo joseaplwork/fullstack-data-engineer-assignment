@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase } from "@/lib/mongodb";
-import { z } from "zod";
 import { createRecommendation } from "@/lib/create-recommendation";
+import { connectToDatabase } from "@/lib/mongodb";
+import { ObjectId } from "mongodb";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 export async function GET(
   _: NextRequest,
@@ -18,7 +19,7 @@ export async function GET(
       );
     }
 
-    const recommendation = await createRecommendation(userId, db);
+    const recommendation = await createRecommendation(new ObjectId(userId), db);
     if (!recommendation) {
       return NextResponse.json(
         { success: false, error: "No recommendations available" },

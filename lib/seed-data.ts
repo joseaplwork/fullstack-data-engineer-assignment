@@ -1,7 +1,7 @@
-import { Db, ObjectId } from "mongodb";
 import { Course, User } from "@/models";
-import seedrandom from "seedrandom";
 import { faker } from "@faker-js/faker";
+import { Db, ObjectId } from "mongodb";
+import seedrandom from "seedrandom";
 import { createRecommendation } from "./create-recommendation";
 
 const SEED = "engagement-tracker-2024";
@@ -64,7 +64,7 @@ const difficulties = ["easy", "medium", "hard"] as const;
 function generateUsers(num: number): User[] {
   return Array.from({ length: num }, (_, i) => ({
     _id: new ObjectId(),
-    name: rng() < 0.85 ? faker.person.fullName() : (null as any),
+    name: faker.person.fullName(),
   }));
 }
 
@@ -79,8 +79,8 @@ function generateCourses(num: number): Course[] {
 function generateEngagement(user: User, course: Course) {
   return {
     _id: new ObjectId(),
-    userId: user._id.toHexString(),
-    courseId: course._id.toHexString(),
+    userId: user._id,
+    courseId: course._id,
     timestamp: new Date().toISOString(),
     timeSpent: Math.floor(rng() * 1000 * 10),
   };
@@ -105,7 +105,7 @@ export async function generateSeedData(db: Db) {
     const course = courses[Math.floor(rng() * courses.length)];
 
     if (i % 7 === 0) {
-      await createRecommendation(user._id.toHexString(), db);
+      await createRecommendation(user._id, db);
     }
     const engagement = generateEngagement(user, course);
     engagements.push(engagement);

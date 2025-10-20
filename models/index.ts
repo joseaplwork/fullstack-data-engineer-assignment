@@ -16,8 +16,8 @@ export const CourseSchema = z.object({
 
 export const EngagementSchema = z.object({
   _id: z.instanceof(ObjectId),
-  userId: z.string(),
-  courseId: z.string(),
+  userId: z.instanceof(ObjectId),
+  courseId: z.instanceof(ObjectId),
   timestamp: z.string(),
   timeSpent: z.number(),
   // Add any other engagement-related fields here
@@ -25,8 +25,8 @@ export const EngagementSchema = z.object({
 
 export const RecommendationSchema = z.object({
   _id: z.instanceof(ObjectId),
-  userId: z.string(),
-  courseId: z.string(),
+  userId: z.instanceof(ObjectId),
+  courseId: z.instanceof(ObjectId),
   createdAt: z.string(),
   // Add any other recommendation-related fields here
 });
@@ -36,3 +36,8 @@ export type User = z.infer<typeof UserSchema>;
 export type Course = z.infer<typeof CourseSchema>;
 export type Engagement = z.infer<typeof EngagementSchema>;
 export type Recommendation = z.infer<typeof RecommendationSchema>;
+
+export type EngagementWithDetails = Engagement & {
+  user: User;
+  course: Course;
+};

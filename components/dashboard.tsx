@@ -19,26 +19,27 @@ To read more about using these font, please visit the Next.js documentation:
 **/
 import {
   Card,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
 } from "@/components/ui/card";
 import {
   Table,
-  TableHeader,
-  TableRow,
-  TableHead,
   TableBody,
   TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
-import { Engagement, Recommendation } from "@/models";
+import { formatTime, formatTimeSpent } from "@/lib/utils";
+import { EngagementWithDetails, Recommendation } from "@/models";
 
 export function Dashboard({
   engagements,
   recommendations,
 }: {
-  engagements: Engagement[];
+  engagements: EngagementWithDetails[];
   recommendations: Recommendation[];
 }) {
   return (
@@ -62,12 +63,12 @@ export function Dashboard({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {engagements?.map((engagement: Engagement) => (
+                {engagements?.map((engagement: EngagementWithDetails) => (
                   <TableRow key={engagement._id.toString()}>
-                    <TableCell>{engagement.userId}</TableCell>
-                    <TableCell>{engagement.courseId}</TableCell>
-                    <TableCell>{engagement.timestamp}</TableCell>
-                    <TableCell>{engagement.timeSpent}</TableCell>
+                    <TableCell>{engagement.user.name}</TableCell>
+                    <TableCell>{engagement.course.title}</TableCell>
+                    <TableCell>{formatTime(engagement.timestamp)}</TableCell>
+                    <TableCell>{formatTimeSpent(engagement.timeSpent)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
