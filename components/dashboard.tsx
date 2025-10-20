@@ -32,17 +32,23 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getCoursePerformance } from "@/lib/get-course-performance";
 import { getRecommendationStats } from "@/lib/get-recommendation-effectiveness";
 import { formatPercentage, formatTime, formatTimeSpent } from "@/lib/utils";
-import { EngagementWithDetails, Recommendation } from "@/models";
+import { Course, EngagementWithDetails, Recommendation } from "@/models";
 
-export function Dashboard({
-  engagements,
-  recommendations,
-}: {
+interface Props {
+  courses: Course[];
   engagements: EngagementWithDetails[];
   recommendations: Recommendation[];
-}) {
+}
+
+export function Dashboard({
+  courses,
+  engagements,
+  recommendations,
+}: Props) {
+  const { topCourses, bottomCourses } = getCoursePerformance(courses, engagements);
   const { usedRecommendations, effectivenessRate } = getRecommendationStats(
     recommendations,
     engagements
@@ -121,6 +127,66 @@ export function Dashboard({
                 </div>
               </div>
             </div>
+          </CardContent>
+        </Card>
+        <Card className="col-span-1 md:col-span-2 lg:col-span-3">
+          <CardHeader>
+            <CardTitle>Top Performing Courses</CardTitle>
+            <CardDescription>
+              The top 3 courses based on engagement count × total time spent (popularity + depth).
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-1/2">Course Title</TableHead>
+                  <TableHead className="w-1/6">Difficulty</TableHead>
+                  <TableHead className="w-1/6">Total Engagements</TableHead>
+                  <TableHead className="w-1/6">Total Time Spent</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {topCourses.map((performance) => (
+                  <TableRow key={performance.course._id.toString()}>
+                    <TableCell className="font-medium">{performance.course.title}</TableCell>
+                    <TableCell>{performance.course.difficulty}</TableCell>
+                    <TableCell>{performance.totalEngagements}</TableCell>
+                    <TableCell>{formatTimeSpent(performance.totalTimeSpent)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+        <Card className="col-span-1 md:col-span-2 lg:col-span-3">
+          <CardHeader>
+            <CardTitle>Lowest Performing Courses</CardTitle>
+            <CardDescription>
+              The bottom 3 courses based on engagement count × total time spent.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-1/2">Course Title</TableHead>
+                  <TableHead className="w-1/6">Difficulty</TableHead>
+                  <TableHead className="w-1/6">Total Engagements</TableHead>
+                  <TableHead className="w-1/6">Total Time Spent</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {bottomCourses.map((performance) => (
+                  <TableRow key={performance.course._id.toString()}>
+                    <TableCell className="font-medium">{performance.course.title}</TableCell>
+                    <TableCell>{performance.course.difficulty}</TableCell>
+                    <TableCell>{performance.totalEngagements}</TableCell>
+                    <TableCell>{formatTimeSpent(performance.totalTimeSpent)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       </main>

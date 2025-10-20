@@ -53,7 +53,7 @@ Additional endpoints for debugging purposes:
    - Implement logic to calculate a metric for effectiveness of our recommendations.
    - Show this metric in the dashboard.
 
-3. Course Performance Analysis:
+3. [x] Course Performance Analysis:
 
    - Implement logic to determine our best and worst courses.
    - Show the top 3 and bottom 3 courses in the dashboard.

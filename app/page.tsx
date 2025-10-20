@@ -1,5 +1,5 @@
 import { Dashboard } from "@/components/dashboard";
-import { EngagementWithDetails, Recommendation } from "@/models";
+import { Course, EngagementWithDetails, Recommendation } from "@/models";
 import { headers } from "next/headers";
 
 export default async function Home() {
@@ -15,8 +15,14 @@ export default async function Home() {
     { cache: "no-store" }
   ).then((res) => res.json() as Promise<{ recommendations: Recommendation[] }>);
 
+  const { courses } = await fetch(
+    new URL("/api/courses", `http://${baseUrl}`),
+    { cache: "no-store" }
+  ).then((res) => res.json() as Promise<{ courses: Course[] }>);
+
+
   return (
-    <Dashboard engagements={engagements} recommendations={recommendations} />
+    <Dashboard engagements={engagements} recommendations={recommendations} courses={courses} />
   );
 }
 

@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   const db = await connectToDatabase();
@@ -7,7 +7,7 @@ export async function GET() {
   return NextResponse.json(
     {
       success: true,
-      data: await db.collection("courses").find().toArray(),
+      courses: await db.collection("courses").find().toArray(),
     },
     { status: 200 }
   );
