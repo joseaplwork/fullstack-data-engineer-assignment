@@ -4,3 +4,4 @@ node_modules
 # Turborepo
 .turbo
 .env
+.env.local
