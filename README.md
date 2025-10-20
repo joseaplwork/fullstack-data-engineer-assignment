@@ -47,7 +47,7 @@ Additional endpoints for debugging purposes:
    - In the dashboard (app/page.tsx), the User Engagement table currently contains User Id and Course Id as the first two columns.
    - Modify it to show user name and course title in the table instead of ids.
 
-2. Recommendation Engine Effectiveness:
+2. [x] Recommendation Engine Effectiveness:
 
    - The `/recommend` endpoint contains a very simple heuristic about what to recommend.
    - Implement logic to calculate a metric for effectiveness of our recommendations.

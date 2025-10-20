@@ -34,3 +34,7 @@ export function formatTimeSpent(seconds: number): string {
     return `${hours}h ${remainingMinutes}m`;
   }
 }
+
+export function formatPercentage(percent: number): string {
+  return `${percent.toFixed(2)}%`;
+}

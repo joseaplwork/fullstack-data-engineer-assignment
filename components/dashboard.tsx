@@ -32,7 +32,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatTime, formatTimeSpent } from "@/lib/utils";
+import { getRecommendationStats } from "@/lib/get-recommendation-effectiveness";
+import { formatPercentage, formatTime, formatTimeSpent } from "@/lib/utils";
 import { EngagementWithDetails, Recommendation } from "@/models";
 
 export function Dashboard({
@@ -42,6 +43,11 @@ export function Dashboard({
   engagements: EngagementWithDetails[];
   recommendations: Recommendation[];
 }) {
+  const { usedRecommendations, effectivenessRate } = getRecommendationStats(
+    recommendations,
+    engagements
+  );
+
   return (
     <div className="flex flex-col h-full">
       <main className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-6 p-6">
@@ -100,6 +106,18 @@ export function Dashboard({
                 <div>Recommendations Given</div>
                 <div className="text-2xl font-bold">
                   {recommendations?.length}
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>Used Recommendations</div>
+                <div className="text-2xl font-bold text-blue-600">
+                  {usedRecommendations}
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>Effectiveness Rate</div>
+                <div className="text-2xl font-bold text-green-600">
+                  {formatPercentage(effectivenessRate)}
                 </div>
               </div>
             </div>
