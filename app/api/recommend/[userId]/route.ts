@@ -31,13 +31,13 @@ export async function GET(
       { status: 200 }
     );
   } catch (error) {
-    console.error("Failed to get recommendation", error);
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { success: false, errors: error.errors },
         { status: 400 }
       );
     }
+
     return NextResponse.json(
       { success: false, error: "Failed to get recommendation" },
       { status: 500 }
