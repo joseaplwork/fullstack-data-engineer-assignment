@@ -1,27 +1,49 @@
-import { MongoClient } from "mongodb";
 import { getDatabaseName, isDevelopment, mongoUri } from "@/env";
+import { MongoClient } from "mongodb";
 
 let mongoClient: MongoClient | null = null;
 
 export async function connectToDatabase() {
-  if (mongoClient) {
-    try {
-      await mongoClient.db().admin().ping();
-      return mongoClient.db(getDatabaseName());
-    } catch {
+  if (!isDevelopment) {
+    if (mongoClient) {
+      try {
+        await mongoClient.close();
+      } catch {}
       mongoClient = null;
+    }
+  } else {
+    if (mongoClient) {
+      try {
+        await mongoClient.db().admin().ping();
+        return mongoClient.db(getDatabaseName());
+      } catch {
+        mongoClient = null;
+      }
     }
   }
 
   try {
-    // Vercel-optimized connection options
-    const options = {
-      maxPoolSize: isDevelopment ? 5 : 1, // Vercel needs smaller pool
-      minPoolSize: 0,
-      maxIdleTimeMS: 30000, // Close connections after 30 seconds of inactivity
-      serverSelectionTimeoutMS: 5000, // How long to try selecting a server
-      socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-    };
+    const options = isDevelopment 
+      ? {
+          maxPoolSize: 5,
+          minPoolSize: 0,
+          maxIdleTimeMS: 30000,
+          serverSelectionTimeoutMS: 5000,
+          socketTimeoutMS: 45000,
+        }
+      : {
+          maxPoolSize: 1,
+          minPoolSize: 0,
+          maxIdleTimeMS: 10000,
+          serverSelectionTimeoutMS: 5000,
+          socketTimeoutMS: 20000,
+          connectTimeoutMS: 10000,
+          tls: true,
+          tlsAllowInvalidCertificates: false,
+          tlsAllowInvalidHostnames: false,
+          maxConnecting: 1,
+          family: 4,
+        };
 
     mongoClient = new MongoClient(mongoUri, options);
     await mongoClient.connect();
@@ -37,7 +59,6 @@ export async function connectToDatabase() {
   }
 }
 
-// Simple health check
 export async function healthCheck(): Promise<boolean> {
   try {
     if (!mongoClient) return false;
