@@ -1,4 +1,4 @@
-import { getDatabaseName, isDevelopment } from '@/env';
+import { databaseName, isDevelopment } from '@/env';
 import { healthCheck } from '@/lib/mongodb';
 import { NextResponse } from 'next/server';
 
@@ -9,7 +9,7 @@ export async function GET() {
     return NextResponse.json({
       status: dbHealthy ? 'ok' : 'error',
       environment: isDevelopment ? 'development' : 'production',
-      database: getDatabaseName(),
+      database: databaseName,
       connected: dbHealthy,
       timestamp: new Date().toISOString()
     });
@@ -17,7 +17,7 @@ export async function GET() {
     return NextResponse.json({
       status: 'error',
       environment: isDevelopment ? 'development' : 'production',
-      database: getDatabaseName(),
+      database: databaseName,
       connected: false,
       error: error instanceof Error ? error.message : 'Unknown error',
       timestamp: new Date().toISOString()

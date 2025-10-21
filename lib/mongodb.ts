@@ -1,4 +1,4 @@
-import { getDatabaseName, isDevelopment, mongoUri } from "@/env";
+import { databaseName, isDevelopment, mongoUri } from "@/env";
 import { MongoClient } from "mongodb";
 
 let mongoClient: MongoClient | null = null;
@@ -15,7 +15,7 @@ export async function connectToDatabase() {
     if (mongoClient) {
       try {
         await mongoClient.db().admin().ping();
-        return mongoClient.db(getDatabaseName());
+        return mongoClient.db(databaseName);
       } catch {
         mongoClient = null;
       }
@@ -48,10 +48,8 @@ export async function connectToDatabase() {
     mongoClient = new MongoClient(mongoUri, options);
     await mongoClient.connect();
     
-    const dbName = getDatabaseName();
-    console.log(`Connected to MongoDB - Database: ${dbName}`);
     
-    return mongoClient.db(dbName);
+    return mongoClient.db(databaseName);
   } catch (error) {
     console.error("Failed to connect to MongoDB:", error);
     mongoClient = null;
