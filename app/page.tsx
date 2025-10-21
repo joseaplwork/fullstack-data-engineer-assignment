@@ -3,20 +3,22 @@ import { Course, EngagementWithDetails, Recommendation } from "@/models";
 import { headers } from "next/headers";
 
 export default async function Home() {
-  const baseUrl = headers().get("Host")!;
+  const host = headers().get("Host")!;
+  const protocol = host.includes('localhost') ? 'http' : 'https';
+  const baseUrl = `${protocol}://${host}`;
 
   const { engagements } = await fetch(
-    new URL("/api/engagements", `http://${baseUrl}`),
+    `${baseUrl}/api/engagements`,
     { cache: "no-store" }
   ).then((res) => res.json() as Promise<{ engagements: EngagementWithDetails[] }>);
 
   const { recommendations } = await fetch(
-    new URL("/api/recommendations", `http://${baseUrl}`),
+    `${baseUrl}/api/recommendations`,
     { cache: "no-store" }
   ).then((res) => res.json() as Promise<{ recommendations: Recommendation[] }>);
 
   const { courses } = await fetch(
-    new URL("/api/courses", `http://${baseUrl}`),
+    `${baseUrl}/api/courses`,
     { cache: "no-store" }
   ).then((res) => res.json() as Promise<{ courses: Course[] }>);
 
