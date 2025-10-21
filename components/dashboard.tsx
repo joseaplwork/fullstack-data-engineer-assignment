@@ -33,7 +33,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getCoursePerformance } from "@/lib/get-course-performance";
-import { getRecommendationStats } from "@/lib/get-recommendation-effectiveness";
+import { getRecommendationStats } from "@/lib/get-recommendation-stats";
 import { formatPercentage, formatTime, formatTimeSpent } from "@/lib/utils";
 import { Course, EngagementWithDetails, Recommendation } from "@/models";
 
