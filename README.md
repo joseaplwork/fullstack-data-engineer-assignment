@@ -68,7 +68,7 @@ Additional endpoints for debugging purposes:
      - Security measures
      - Code organization
 
-5. (Optional) Deployment:
+5. [x] (Optional) Deployment:
    - Deploy your solution to [Vercel](https://vercel.com/docs/frameworks/nextjs).
    - Add the deployment link to your README file.
 
