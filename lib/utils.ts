@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export function formatTime(timestamp: string): string {
@@ -15,19 +15,19 @@ export function formatTime(timestamp: string): string {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
-  });;
+  });
 }
 
 export function formatTimeSpent(seconds: number): string {
   const totalMinutes = Math.round(seconds / 60);
-  
+
   if (totalMinutes < 60) {
     return `${totalMinutes}m`;
   }
-  
+
   const hours = Math.floor(totalMinutes / 60);
   const remainingMinutes = totalMinutes % 60;
-  
+
   if (remainingMinutes === 0) {
     return `${hours}h`;
   } else {

@@ -1,6 +1,10 @@
 import { Dashboard } from "@/components/dashboard";
-import { queryCourses, queryEngagementsWithDetails, queryRecommendations } from "@/lib/queries";
-import { Course, EngagementWithDetails, Recommendation } from "@/models";
+import {
+  queryCourses,
+  queryEngagementsWithDetails,
+  queryRecommendations,
+} from "@/lib/queries";
+import type { Course, EngagementWithDetails, Recommendation } from "@/models";
 
 export default async function Home() {
   try {
@@ -23,12 +27,16 @@ export default async function Home() {
     return (
       <div className="flex items-center justify-center min-h-screen p-6">
         <div className="text-center max-w-md">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Failed to Load Dashboard</h1>
+          <h1 className="text-2xl font-bold text-red-600 mb-4">
+            Failed to Load Dashboard
+          </h1>
           <p className="text-gray-600 mb-4">
-            There was an error loading the dashboard data. Please check the server logs for more details.
+            There was an error loading the dashboard data. Please check the
+            server logs for more details.
           </p>
           <div className="bg-gray-100 p-4 rounded text-sm text-left">
-            <strong>Error:</strong> {error instanceof Error ? error.message : "Unknown error"}
+            <strong>Error:</strong>{" "}
+            {error instanceof Error ? error.message : "Unknown error"}
           </div>
         </div>
       </div>

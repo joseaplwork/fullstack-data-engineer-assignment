@@ -1,5 +1,5 @@
-import { queryCourses } from "@/lib/queries";
 import { NextResponse } from "next/server";
+import { queryCourses } from "@/lib/queries";
 
 export async function GET() {
   try {
@@ -8,7 +8,11 @@ export async function GET() {
     return NextResponse.json({ success: true, courses }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { success: false, error: error instanceof Error ? error.message : "Failed to fetch courses" },
+      {
+        success: false,
+        error:
+          error instanceof Error ? error.message : "Failed to fetch courses",
+      },
       { status: 500 }
     );
   }

@@ -35,7 +35,7 @@ import {
 import { getCoursePerformance } from "@/lib/get-course-performance";
 import { getRecommendationStats } from "@/lib/get-recommendation-stats";
 import { formatPercentage, formatTime, formatTimeSpent } from "@/lib/utils";
-import { Course, EngagementWithDetails, Recommendation } from "@/models";
+import type { Course, EngagementWithDetails, Recommendation } from "@/models";
 
 interface Props {
   courses: Course[];
@@ -43,12 +43,11 @@ interface Props {
   recommendations: Recommendation[];
 }
 
-export function Dashboard({
-  courses,
-  engagements,
-  recommendations,
-}: Props) {
-  const { topCourses, bottomCourses } = getCoursePerformance(courses, engagements);
+export function Dashboard({ courses, engagements, recommendations }: Props) {
+  const { topCourses, bottomCourses } = getCoursePerformance(
+    courses,
+    engagements
+  );
   const { usedRecommendations, effectivenessRate } = getRecommendationStats(
     recommendations,
     engagements
@@ -80,7 +79,9 @@ export function Dashboard({
                     <TableCell>{engagement.user.name}</TableCell>
                     <TableCell>{engagement.course.title}</TableCell>
                     <TableCell>{formatTime(engagement.timestamp)}</TableCell>
-                    <TableCell>{formatTimeSpent(engagement.timeSpent)}</TableCell>
+                    <TableCell>
+                      {formatTimeSpent(engagement.timeSpent)}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -133,7 +134,8 @@ export function Dashboard({
           <CardHeader>
             <CardTitle>Top Performing Courses</CardTitle>
             <CardDescription>
-              The top 3 courses based on engagement count × total time spent (popularity + depth).
+              The top 3 courses based on engagement count × total time spent
+              (popularity + depth).
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -149,10 +151,14 @@ export function Dashboard({
               <TableBody>
                 {topCourses.map((performance) => (
                   <TableRow key={performance.course._id.toString()}>
-                    <TableCell className="font-medium">{performance.course.title}</TableCell>
+                    <TableCell className="font-medium">
+                      {performance.course.title}
+                    </TableCell>
                     <TableCell>{performance.course.difficulty}</TableCell>
                     <TableCell>{performance.totalEngagements}</TableCell>
-                    <TableCell>{formatTimeSpent(performance.totalTimeSpent)}</TableCell>
+                    <TableCell>
+                      {formatTimeSpent(performance.totalTimeSpent)}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -179,10 +185,14 @@ export function Dashboard({
               <TableBody>
                 {bottomCourses.map((performance) => (
                   <TableRow key={performance.course._id.toString()}>
-                    <TableCell className="font-medium">{performance.course.title}</TableCell>
+                    <TableCell className="font-medium">
+                      {performance.course.title}
+                    </TableCell>
                     <TableCell>{performance.course.difficulty}</TableCell>
                     <TableCell>{performance.totalEngagements}</TableCell>
-                    <TableCell>{formatTimeSpent(performance.totalTimeSpent)}</TableCell>
+                    <TableCell>
+                      {formatTimeSpent(performance.totalTimeSpent)}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

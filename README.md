@@ -40,6 +40,34 @@ Additional endpoints for debugging purposes:
 5. Invoke the `http://localhost:3000/seed-data` endpoint to populate your Cloud MongoDB with initial data.
 6. Open `http://localhost:3000/` to see the dashboard
 
+## Code Quality & Formatting
+
+This project uses [Biome](https://biomejs.dev/) for consistent code styling, linting, and formatting across the entire codebase.
+
+### Available Commands
+
+- `npm run lint` - Check for linting issues
+- `npm run format` - Format code automatically
+- `npm run check` - Run both linting and formatting with auto-fix
+- `npm run ci` - Run checks in CI mode (no auto-fix)
+
+### Editor Integration
+
+Install the [Biome VS Code extension](https://marketplace.visualstudio.com/items?itemName=biomejs.biome) for:
+
+- Live error detection as you type
+- Automatic formatting on save
+- Import organization
+- Quick fixes for common issues
+
+The project is pre-configured to use Biome with:
+
+- 2-space indentation
+- Single quotes
+- Semicolons
+- ES5 trailing commas
+- 100 character line width
+
 ## Tasks
 
 1. [x] User Engagement Table Improvement:

@@ -1,7 +1,7 @@
-import { Course, User } from "@/models";
 import { faker } from "@faker-js/faker";
-import { Db, ObjectId } from "mongodb";
+import { type Db, ObjectId } from "mongodb";
 import seedrandom from "seedrandom";
+import type { Course, User } from "@/models";
 import { createRecommendation } from "./create-recommendation";
 
 const SEED = "engagement-tracker-2024";
@@ -62,14 +62,14 @@ const courseTitles = [
 const difficulties = ["easy", "medium", "hard"] as const;
 
 function generateUsers(num: number): User[] {
-  return Array.from({ length: num }, (_, i) => ({
+  return Array.from({ length: num }, (_, _i) => ({
     _id: new ObjectId(),
     name: faker.person.fullName(),
   }));
 }
 
 function generateCourses(num: number): Course[] {
-  return Array.from({ length: num }, (_, i) => ({
+  return Array.from({ length: num }, (_, _i) => ({
     _id: new ObjectId(),
     title: courseTitles[Math.floor(rng() * courseTitles.length)],
     difficulty: difficulties[Math.floor(rng() * difficulties.length)],

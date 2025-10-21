@@ -1,5 +1,5 @@
+import { type Db, ObjectId } from "mongodb";
 import { RecommendationSchema } from "@/models";
-import { Db, ObjectId } from "mongodb";
 
 export async function createRecommendation(userId: ObjectId, db: Db) {
   const latestEngagement = await db
@@ -9,7 +9,7 @@ export async function createRecommendation(userId: ObjectId, db: Db) {
     .limit(1)
     .toArray();
 
-  let recommendedCourse;
+  let recommendedCourse: unknown[] = [];
   if (latestEngagement.length > 0) {
     const latestCourseId = latestEngagement[0].courseId;
     const [latestCourse] = await db
@@ -42,7 +42,7 @@ export async function createRecommendation(userId: ObjectId, db: Db) {
   const recommendation = RecommendationSchema.parse({
     _id: new ObjectId(),
     userId,
-    courseId: recommendedCourse[0]._id,
+    courseId: (recommendedCourse[0] as { _id: ObjectId })._id,
     reasonCode: latestEngagement.length > 0 ? "personalized" : "popular",
     confidence: 0.8,
     createdAt: new Date().toISOString(),

@@ -1,10 +1,13 @@
+import type { Document } from "mongodb";
 import { connectToDatabase } from "@/lib/mongodb";
-import { Course, EngagementWithDetails, Recommendation } from "@/models";
+import type { Course, EngagementWithDetails, Recommendation } from "@/models";
 
-export async function queryEngagementsWithDetails(limit = 0): Promise<EngagementWithDetails[]> {
+export async function queryEngagementsWithDetails(
+  limit = 0
+): Promise<EngagementWithDetails[]> {
   const db = await connectToDatabase();
 
-  const pipeline: any[] = [
+  const pipeline: Document[] = [
     {
       $lookup: {
         from: "users",
@@ -34,7 +37,10 @@ export async function queryEngagementsWithDetails(limit = 0): Promise<Engagement
     pipeline.push({ $limit: Number(limit) });
   }
 
-  const results = await db.collection("engagements").aggregate(pipeline).toArray();
+  const results = await db
+    .collection("engagements")
+    .aggregate(pipeline)
+    .toArray();
   return results as EngagementWithDetails[];
 }
 

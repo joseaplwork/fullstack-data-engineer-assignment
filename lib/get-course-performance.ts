@@ -1,4 +1,4 @@
-import { Course, Engagement } from "@/models";
+import type { Course, Engagement } from "@/models";
 
 export interface CoursePerformance {
   course: Course;
@@ -13,10 +13,13 @@ export function getCoursePerformance(
   topCourses: CoursePerformance[];
   bottomCourses: CoursePerformance[];
 } {
-  const performanceMap = new Map<string, {
-    totalEngagements: number;
-    totalTimeSpent: number;
-  }>();
+  const performanceMap = new Map<
+    string,
+    {
+      totalEngagements: number;
+      totalTimeSpent: number;
+    }
+  >();
 
   for (const course of courses) {
     performanceMap.set(course._id.toString(), {
@@ -28,19 +31,19 @@ export function getCoursePerformance(
   for (const engagement of engagements) {
     const courseId = engagement.courseId.toString();
     const stats = performanceMap.get(courseId);
-    
+
     if (stats) {
       stats.totalEngagements++;
       stats.totalTimeSpent += engagement.timeSpent;
     }
   }
 
-  const allCourses: CoursePerformance[] = courses.map(course => {
-    const stats = performanceMap.get(course._id.toString())!;
+  const allCourses: CoursePerformance[] = courses.map((course) => {
+    const stats = performanceMap.get(course._id.toString());
     return {
       course,
-      totalEngagements: stats.totalEngagements,
-      totalTimeSpent: stats.totalTimeSpent,
+      totalEngagements: stats?.totalEngagements || 0,
+      totalTimeSpent: stats?.totalTimeSpent || 0,
     };
   });
 

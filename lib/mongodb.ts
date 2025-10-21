@@ -1,5 +1,5 @@
-import { databaseName, mongoUri } from "@/env";
 import { MongoClient } from "mongodb";
+import { databaseName, mongoUri } from "@/env";
 
 let mongoClient: MongoClient | null = null;
 

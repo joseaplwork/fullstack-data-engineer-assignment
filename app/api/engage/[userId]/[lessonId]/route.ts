@@ -1,7 +1,7 @@
+import { ObjectId } from "mongodb";
+import { type NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { EngagementSchema } from "@/models";
-import { ObjectId } from "mongodb";
-import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   _: NextRequest,
@@ -23,9 +23,12 @@ export async function GET(
     return NextResponse.json({ success: true, engagement }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { 
-        success: false, 
-        error: error instanceof Error ? error.message : "Failed to create engagement" 
+      {
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to create engagement",
       },
       { status: 500 }
     );

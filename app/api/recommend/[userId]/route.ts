@@ -1,8 +1,8 @@
+import { ObjectId } from "mongodb";
+import { type NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { createRecommendation } from "@/lib/create-recommendation";
 import { connectToDatabase } from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
-import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 
 export async function GET(
   _: NextRequest,
