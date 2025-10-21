@@ -1,68 +1,28 @@
-import { databaseName, isDevelopment, mongoUri } from "@/env";
+import { databaseName, mongoUri } from "@/env";
 import { MongoClient } from "mongodb";
 
 let mongoClient: MongoClient | null = null;
 
 export async function connectToDatabase() {
-  if (!isDevelopment) {
-    if (mongoClient) {
-      try {
-        await mongoClient.close();
-      } catch {}
-      mongoClient = null;
-    }
-  } else {
-    if (mongoClient) {
-      try {
-        await mongoClient.db().admin().ping();
-        return mongoClient.db(databaseName);
-      } catch {
-        mongoClient = null;
-      }
-    }
+  if (mongoClient) {
+    return mongoClient.db(databaseName);
   }
 
   try {
-    const options = isDevelopment 
-      ? {
-          maxPoolSize: 5,
-          minPoolSize: 0,
-          maxIdleTimeMS: 30000,
-          serverSelectionTimeoutMS: 5000,
-          socketTimeoutMS: 45000,
-        }
-      : {
-          maxPoolSize: 1,
-          minPoolSize: 0,
-          maxIdleTimeMS: 10000,
-          serverSelectionTimeoutMS: 5000,
-          socketTimeoutMS: 20000,
-          connectTimeoutMS: 10000,
-          tls: true,
-          tlsAllowInvalidCertificates: false,
-          tlsAllowInvalidHostnames: false,
-          maxConnecting: 1,
-          family: 4,
-        };
-
-    mongoClient = new MongoClient(mongoUri, options);
+    mongoClient = new MongoClient(mongoUri);
     await mongoClient.connect();
-    
-    
+    console.log("Connected to MongoDB");
     return mongoClient.db(databaseName);
   } catch (error) {
-    console.error("Failed to connect to MongoDB:", error);
-    mongoClient = null;
+    console.error("Failed to connect to MongoDB", error);
+
     throw error;
   }
 }
 
-export async function healthCheck(): Promise<boolean> {
-  try {
-    if (!mongoClient) return false;
-    await mongoClient.db().admin().ping();
-    return true;
-  } catch {
-    return false;
+export async function disconnectDatabase() {
+  if (mongoClient) {
+    await mongoClient.close();
+    mongoClient = null;
   }
 }
