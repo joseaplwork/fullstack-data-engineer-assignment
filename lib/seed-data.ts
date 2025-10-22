@@ -95,7 +95,7 @@ export async function generateSeedData(db: Db) {
   const users = generateUsers(NUM_USERS);
   const courses = generateCourses(NUM_COURSES);
 
-  console.log("Generating seed data...");
+  console.log("⌛ Generating seed data...");
   await db.collection("users").insertMany(users);
   await db.collection("courses").insertMany(courses);
 
@@ -115,5 +115,5 @@ export async function generateSeedData(db: Db) {
   }
   await db.collection("engagements").insertMany(engagements);
 
-  console.log("Seed data generation complete!");
+  console.log("✅ Seed data generation complete!");
 }

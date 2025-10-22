@@ -11,10 +11,10 @@ export async function connectToDatabase() {
   try {
     mongoClient = new MongoClient(mongoUri);
     await mongoClient.connect();
-    console.log("Connected to MongoDB");
+    console.log("✅ Connected to MongoDB");
     return mongoClient.db(databaseName);
   } catch (error) {
-    console.error("Failed to connect to MongoDB", error);
+    console.error("❌ Failed to connect to MongoDB", error);
 
     throw error;
   }
