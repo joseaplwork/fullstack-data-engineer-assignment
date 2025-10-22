@@ -67,8 +67,8 @@ export function Dashboard({ courses, engagements, recommendations }: Props) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>User Id</TableHead>
-                  <TableHead>Course Id</TableHead>
+                  <TableHead>User</TableHead>
+                  <TableHead>Course</TableHead>
                   <TableHead>Timestamp</TableHead>
                   <TableHead>Time Spent</TableHead>
                 </TableRow>

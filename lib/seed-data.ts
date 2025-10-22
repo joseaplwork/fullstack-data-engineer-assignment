@@ -73,6 +73,7 @@ function generateCourses(num: number): Course[] {
     _id: new ObjectId(),
     title: courseTitles[Math.floor(rng() * courseTitles.length)],
     difficulty: difficulties[Math.floor(rng() * difficulties.length)],
+    createdAt: new Date().toISOString(),
   }));
 }
 

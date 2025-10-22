@@ -4,14 +4,13 @@ import { z } from "zod";
 export const UserSchema = z.object({
   _id: z.instanceof(ObjectId),
   name: z.string().min(1).max(100),
-  // Add any other user-related fields here
 });
 
 export const CourseSchema = z.object({
   _id: z.instanceof(ObjectId),
   title: z.string().min(1).max(200),
   difficulty: z.enum(["easy", "medium", "hard"]),
-  // Add any other course-related fields here
+  createdAt: z.string().optional(),
 });
 
 export const EngagementSchema = z.object({
@@ -20,7 +19,6 @@ export const EngagementSchema = z.object({
   courseId: z.instanceof(ObjectId),
   timestamp: z.string(),
   timeSpent: z.number(),
-  // Add any other engagement-related fields here
 });
 
 export const RecommendationSchema = z.object({
@@ -28,7 +26,8 @@ export const RecommendationSchema = z.object({
   userId: z.instanceof(ObjectId),
   courseId: z.instanceof(ObjectId),
   createdAt: z.string(),
-  // Add any other recommendation-related fields here
+  reasonCode: z.enum(["personalized", "popular"]).optional(),
+  confidence: z.number().min(0).max(1).optional(),
 });
 
 // Infer TypeScript types from Zod schemas

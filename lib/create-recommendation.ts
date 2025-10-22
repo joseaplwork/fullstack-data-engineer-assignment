@@ -5,18 +5,15 @@ export async function createRecommendation(userId: ObjectId, db: Db) {
   const latestEngagement = await db
     .collection("engagements")
     .find({ userId })
-    .sort({ startTime: -1 })
+    .sort({ timestamp: -1 })
     .limit(1)
     .toArray();
 
-  let recommendedCourse: unknown[] = [];
+  let recommendedCourse = [];
   if (latestEngagement.length > 0) {
-    const latestCourseId = latestEngagement[0].courseId;
-    const [latestCourse] = await db
+    const latestCourse = await db
       .collection("courses")
-      .find({ _id: { $eq: latestCourseId } })
-      .limit(1)
-      .toArray();
+      .findOne({ _id: latestEngagement[0].courseId });
 
     // Recommend course with similar difficulty
     recommendedCourse = await db
@@ -42,9 +39,9 @@ export async function createRecommendation(userId: ObjectId, db: Db) {
   const recommendation = RecommendationSchema.parse({
     _id: new ObjectId(),
     userId,
-    courseId: (recommendedCourse[0] as { _id: ObjectId })._id,
+    courseId: recommendedCourse[0]._id,
     reasonCode: latestEngagement.length > 0 ? "personalized" : "popular",
-    confidence: 0.8,
+    confidence: Math.random(),
     createdAt: new Date().toISOString(),
   });
 
