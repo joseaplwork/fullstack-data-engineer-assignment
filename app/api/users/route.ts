@@ -8,7 +8,7 @@ export async function GET() {
     return NextResponse.json(
       {
         success: true,
-        data: await db.collection("users").find().toArray(),
+        users: await db.collection("users").find().toArray(),
       },
       { status: 200 }
     );

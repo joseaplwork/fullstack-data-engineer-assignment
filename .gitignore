@@ -1,9 +1,10 @@
 node_modules
 .next
-# Turborepo
 .turbo
 .env
 .env.local
 .idea
 .vercel
 .env*.local
+playwright-report
+test-results
