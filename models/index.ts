@@ -10,7 +10,7 @@ export const CourseSchema = z.object({
   _id: z.instanceof(ObjectId),
   title: z.string().min(1).max(200),
   difficulty: z.enum(["easy", "medium", "hard"]),
-  createdAt: z.string().optional(),
+  createdAt: z.string(),
 });
 
 export const EngagementSchema = z.object({
@@ -26,8 +26,8 @@ export const RecommendationSchema = z.object({
   userId: z.instanceof(ObjectId),
   courseId: z.instanceof(ObjectId),
   createdAt: z.string(),
-  reasonCode: z.enum(["personalized", "popular"]).optional(),
-  confidence: z.number().min(0).max(1).optional(),
+  reasonCode: z.enum(["personalized", "popular"]),
+  confidence: z.number().min(0).max(1),
 });
 
 // Infer TypeScript types from Zod schemas
