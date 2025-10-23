@@ -1,47 +1,29 @@
 import { ObjectId } from "mongodb";
-import { type NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
+import type { NextRequest } from "next/server";
+import { createSuccessResponse, handleApiError } from "@/lib/api-helpers";
 import { createRecommendation } from "@/lib/create-recommendation";
+import { logger } from "@/lib/logger";
 import { connectToDatabase } from "@/lib/mongodb";
+import { ObjectIdSchema } from "@/lib/validation";
 
-export async function GET(
-  _: NextRequest,
-  { params }: { params: { userId: string } }
-) {
+interface Params {
+  params: { userId: string };
+}
+
+export async function GET(request: NextRequest, { params }: Params) {
+  const { pathname } = request.nextUrl;
+
   try {
+    logger.request("GET", pathname, { userId: params.userId });
+
+    const userId = new ObjectId(ObjectIdSchema.parse(params.userId));
+
     const db = await connectToDatabase();
-    const { userId } = params;
+    const recommendation = await createRecommendation(userId, db);
 
-    if (!userId) {
-      return NextResponse.json(
-        { success: false, error: "userId is required" },
-        { status: 400 }
-      );
-    }
-
-    const recommendation = await createRecommendation(new ObjectId(userId), db);
-    if (!recommendation) {
-      return NextResponse.json(
-        { success: false, error: "No recommendations available" },
-        { status: 404 }
-      );
-    }
-    return NextResponse.json(
-      { success: true, recommendation },
-      { status: 200 }
-    );
+    return createSuccessResponse({ recommendation }, 200);
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        { success: false, errors: error.errors },
-        { status: 400 }
-      );
-    }
-
-    return NextResponse.json(
-      { success: false, error: "Failed to get recommendation" },
-      { status: 500 }
-    );
+    return handleApiError(error, pathname);
   }
 }
 

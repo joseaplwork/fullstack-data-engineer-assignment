@@ -1,9 +1,10 @@
 import { type Db, ObjectId } from "mongodb";
 import { RecommendationSchema } from "@/models";
+import { COLLECTIONS } from "./constants";
 
 export async function createRecommendation(userId: ObjectId, db: Db) {
   const latestEngagement = await db
-    .collection("engagements")
+    .collection(COLLECTIONS.ENGAGEMENTS)
     .find({ userId })
     .sort({ timestamp: -1 })
     .limit(1)
@@ -25,7 +26,7 @@ export async function createRecommendation(userId: ObjectId, db: Db) {
   } else {
     // If no engagement history, recommend the newest course
     recommendedCourse = await db
-      .collection("courses")
+      .collection(COLLECTIONS.COURSES)
       .find()
       .sort({ createdAt: -1 })
       .limit(1)
@@ -45,6 +46,6 @@ export async function createRecommendation(userId: ObjectId, db: Db) {
     createdAt: new Date().toISOString(),
   });
 
-  await db.collection("recommendations").insertOne(recommendation);
+  await db.collection(COLLECTIONS.RECOMMENDATIONS).insertOne(recommendation);
   return recommendation;
 }

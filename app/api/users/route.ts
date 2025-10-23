@@ -1,25 +1,21 @@
-import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { createSuccessResponse, handleApiError } from "@/lib/api-helpers";
+import { COLLECTIONS } from "@/lib/constants";
+import { logger } from "@/lib/logger";
 import { connectToDatabase } from "@/lib/mongodb";
 
-export async function GET() {
-  try {
-    const db = await connectToDatabase();
+export async function GET(request: NextRequest) {
+  const { pathname } = request.nextUrl;
 
-    return NextResponse.json(
-      {
-        success: true,
-        users: await db.collection("users").find().toArray(),
-      },
-      { status: 200 }
-    );
+  try {
+    logger.request("GET", pathname);
+
+    const db = await connectToDatabase();
+    const users = await db.collection(COLLECTIONS.USERS).find().toArray();
+
+    return createSuccessResponse({ users }, 200);
   } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: error instanceof Error ? error.message : "Failed to get users",
-      },
-      { status: 500 }
-    );
+    return handleApiError(error, pathname);
   }
 }
 

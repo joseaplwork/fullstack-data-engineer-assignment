@@ -1,16 +1,16 @@
 import type { Document } from "mongodb";
 import { connectToDatabase } from "@/lib/mongodb";
 import type { Course, EngagementWithDetails, Recommendation } from "@/models";
+import { COLLECTIONS } from "./constants";
 
-export async function queryEngagementsWithDetails(
-  limit = 0
-): Promise<EngagementWithDetails[]> {
+export async function queryEngagementsWithDetails(): Promise<
+  EngagementWithDetails[]
+> {
   const db = await connectToDatabase();
-
   const pipeline: Document[] = [
     {
       $lookup: {
-        from: "users",
+        from: COLLECTIONS.USERS,
         localField: "userId",
         foreignField: "_id",
         as: "user",
@@ -18,7 +18,7 @@ export async function queryEngagementsWithDetails(
     },
     {
       $lookup: {
-        from: "courses",
+        from: COLLECTIONS.COURSES,
         localField: "courseId",
         foreignField: "_id",
         as: "course",
@@ -30,38 +30,36 @@ export async function queryEngagementsWithDetails(
         course: { $arrayElemAt: ["$course", 0] },
       },
     },
+    {
+      $match: {
+        user: { $ne: null },
+        course: { $ne: null },
+      },
+    },
     { $sort: { timestamp: -1 } },
   ];
-
-  if (limit && Number(limit) > 0) {
-    pipeline.push({ $limit: Number(limit) });
-  }
-
-  const results = await db
-    .collection("engagements")
+  const engagementsWithDetails = await db
+    .collection(COLLECTIONS.ENGAGEMENTS)
     .aggregate(pipeline)
     .toArray();
-  return results as EngagementWithDetails[];
+
+  return engagementsWithDetails as EngagementWithDetails[];
 }
 
 export async function queryRecommendations(): Promise<Recommendation[]> {
   const db = await connectToDatabase();
   const recommendations = await db
-    .collection("recommendations")
+    .collection(COLLECTIONS.RECOMMENDATIONS)
     .find()
     .sort({ createdAt: -1 })
     .toArray();
+
   return recommendations as Recommendation[];
 }
 
 export async function queryCourses(): Promise<Course[]> {
   const db = await connectToDatabase();
-  const courses = await db.collection("courses").find().toArray();
+  const courses = await db.collection(COLLECTIONS.COURSES).find().toArray();
+
   return courses as Course[];
 }
-
-export default {
-  queryEngagementsWithDetails,
-  queryRecommendations,
-  queryCourses,
-};

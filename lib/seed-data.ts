@@ -2,6 +2,7 @@ import { faker } from "@faker-js/faker";
 import { type Db, ObjectId } from "mongodb";
 import seedrandom from "seedrandom";
 import type { Course, User } from "@/models";
+import { COLLECTIONS } from "./constants";
 import { createRecommendation } from "./create-recommendation";
 
 const SEED = "engagement-tracker-2024";
@@ -88,17 +89,17 @@ function generateEngagement(user: User, course: Course) {
 }
 
 export async function generateSeedData(db: Db) {
-  await db.collection("users").drop();
-  await db.collection("courses").drop();
-  await db.collection("engagements").drop();
-  await db.collection("recommendations").drop();
+  await db.collection(COLLECTIONS.USERS).drop();
+  await db.collection(COLLECTIONS.COURSES).drop();
+  await db.collection(COLLECTIONS.ENGAGEMENTS).drop();
+  await db.collection(COLLECTIONS.RECOMMENDATIONS).drop();
 
   const users = generateUsers(NUM_USERS);
   const courses = generateCourses(NUM_COURSES);
 
   console.log("⌛ Generating seed data...");
-  await db.collection("users").insertMany(users);
-  await db.collection("courses").insertMany(courses);
+  await db.collection(COLLECTIONS.USERS).insertMany(users);
+  await db.collection(COLLECTIONS.COURSES).insertMany(courses);
 
   const engagements = [];
   for (let i = 0; i < NUM_ENGAGEMENTS; i++) {
@@ -114,7 +115,7 @@ export async function generateSeedData(db: Db) {
       console.log(`Progress: ${i}/${NUM_ENGAGEMENTS}`);
     }
   }
-  await db.collection("engagements").insertMany(engagements);
+  await db.collection(COLLECTIONS.ENGAGEMENTS).insertMany(engagements);
 
   console.log("✅ Seed data generation complete!");
 }

@@ -1,25 +1,20 @@
-import { type NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { createSuccessResponse, handleApiError } from "@/lib/api-helpers";
+import { logger } from "@/lib/logger";
 import { queryRecommendations } from "@/lib/queries";
 
-export async function GET(_: NextRequest) {
+export async function GET(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
   try {
+    logger.request("GET", pathname);
+
     const recommendations = await queryRecommendations();
 
-    return NextResponse.json(
-      { success: true, recommendations },
-      { status: 200 }
-    );
+    return createSuccessResponse({ recommendations }, 200);
   } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        error:
-          error instanceof Error
-            ? error.message
-            : "Failed to get recommendations",
-      },
-      { status: 500 }
-    );
+    return handleApiError(error, pathname);
   }
 }
+
 export const dynamic = "force-dynamic";

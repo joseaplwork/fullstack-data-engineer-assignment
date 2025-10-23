@@ -1,20 +1,20 @@
-import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { createSuccessResponse, handleApiError } from "@/lib/api-helpers";
+import { logger } from "@/lib/logger";
 import { queryCourses } from "@/lib/queries";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
   try {
+    logger.request("GET", pathname);
+
     const courses = await queryCourses();
 
-    return NextResponse.json({ success: true, courses }, { status: 200 });
+    return createSuccessResponse({ courses }, 200);
   } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        error:
-          error instanceof Error ? error.message : "Failed to fetch courses",
-      },
-      { status: 500 }
-    );
+    return handleApiError(error, pathname);
   }
 }
+
 export const dynamic = "force-dynamic";
