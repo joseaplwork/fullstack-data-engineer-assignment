@@ -1,4 +1,5 @@
 import { Dashboard } from "@/components/dashboard";
+import { ErrorView } from "@/components/error-view";
 import {
   queryCourses,
   queryEngagementsWithDetails,
@@ -23,13 +24,10 @@ export default async function Home() {
     );
   } catch (_) {
     return (
-      <div className="flex items-center justify-center min-h-screen p-6">
-        <div className="text-center max-w-md">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">
-            Failed to Load Dashboard
-          </h1>
-        </div>
-      </div>
+      <ErrorView
+        message="Failed to Load Dashboard"
+        description="There was an error loading the dashboard data."
+      />
     );
   }
 }
