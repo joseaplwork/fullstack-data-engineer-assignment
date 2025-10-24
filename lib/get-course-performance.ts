@@ -6,6 +6,19 @@ export interface CoursePerformance {
   totalTimeSpent: number;
 }
 
+/**
+ * Ranks courses by performance using a composite scoring algorithm.
+ *
+ * Performance Score = Total Engagements × Total Time Spent
+ *
+ * Rationale: This multiplicative metric balances popularity (engagement count)
+ * with depth (time investment). Courses excelling in only one dimension receive
+ * lower scores, encouraging both breadth and depth of engagement.
+ *
+ * @param courses - All available courses
+ * @param engagements - All user engagement records
+ * @returns Object containing top 3 and bottom 3 performing courses
+ */
 export function getCoursePerformance(
   courses: Course[],
   engagements: Engagement[]
@@ -47,6 +60,7 @@ export function getCoursePerformance(
     };
   });
 
+  // Multiplicative scoring penalizes one-dimensional performance
   const sortedCourses = [...allCourses].sort((a, b) => {
     const scoreA = a.totalEngagements * a.totalTimeSpent;
     const scoreB = b.totalEngagements * b.totalTimeSpent;

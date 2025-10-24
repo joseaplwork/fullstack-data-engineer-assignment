@@ -9,6 +9,13 @@ import {
 } from "./errors";
 import { logger } from "./logger";
 
+/**
+ * Creates a successful API response with the provided data and a timestamp.
+ *
+ * @param data - The data to include in the response body.
+ * @param status - The HTTP status code for the response. Defaults to 200.
+ * @returns A NextResponse object containing the success response with data and timestamp.
+ */
 export function createSuccessResponse<T>(
   data: T,
   status = 200
@@ -41,6 +48,22 @@ export function createErrorResponse(
   return NextResponse.json(response, { status });
 }
 
+/**
+ * Centralized error handler for all API routes.
+ *
+ * Error handling strategy:
+ * - ValidationError → 400 Bad Request
+ * - NotFoundError → 404 Not Found
+ * - ZodError → 400 Bad Request with validation details
+ * - Unknown errors → 500 Internal Server Error
+ *
+ * Security: Sanitizes error messages in production to prevent information leakage.
+ * Development: Returns full error details including stack traces.
+ *
+ * @param error - The caught error object
+ * @param context - Route path for logging context
+ * @returns NextResponse with appropriate status code and error payload
+ */
 export function handleApiError(
   error: unknown,
   context: string

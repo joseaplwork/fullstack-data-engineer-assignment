@@ -6,6 +6,18 @@ interface RecommendationStats {
   totalRecommendations: number;
 }
 
+/**
+ * Calculates the effectiveness of the recommendation system.
+ *
+ * A recommendation is considered "used" when a user engages with the recommended
+ * course AFTER the recommendation was created
+ *
+ * Effectiveness Rate = (Used Recommendations / Total Recommendations) × 100
+ *
+ * @param recommendations - All recommendations ever given
+ * @param engagements - All user engagement records
+ * @returns Statistics object containing effectiveness metrics
+ */
 export function getRecommendationStats(
   recommendations: Recommendation[],
   engagements: Engagement[]
@@ -18,6 +30,8 @@ export function getRecommendationStats(
     };
   }
 
+  // Build engagement lookup map for O(1) access
+  // Key format: "userId_courseId" → timestamps array
   const engagementMap = new Map<string, number[]>();
 
   for (const engagement of engagements) {
@@ -33,6 +47,7 @@ export function getRecommendationStats(
 
   let usedRecommendations = 0;
 
+  // Check temporal causality: engagement.timestamp > recommendation.createdAt
   for (const recommendation of recommendations) {
     const key = `${recommendation.userId.toString()}_${recommendation.courseId.toString()}`;
     const recommendationTime = new Date(recommendation.createdAt).getTime();

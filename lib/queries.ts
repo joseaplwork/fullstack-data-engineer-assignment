@@ -3,6 +3,20 @@ import { connectToDatabase } from "@/lib/mongodb";
 import type { Course, EngagementWithDetails, Recommendation } from "@/models";
 import { COLLECTIONS } from "./constants";
 
+/**
+ * Fetches engagements with enriched user and course data via MongoDB aggregation.
+ *
+ * Uses $lookup (JOIN) operations to denormalize data at the database level,
+ * avoiding N+1 query problems and reducing network overhead.
+ *
+ * Pipeline stages:
+ * 1. JOIN users collection → add user.name
+ * 2. JOIN courses collection → add course.title, course.difficulty
+ * 3. Filter out orphaned records (missing user or course)
+ * 4. Sort by timestamp (newest first)
+ *
+ * @returns Array of engagements with nested user and course objects
+ */
 export async function queryEngagementsWithDetails(): Promise<
   EngagementWithDetails[]
 > {

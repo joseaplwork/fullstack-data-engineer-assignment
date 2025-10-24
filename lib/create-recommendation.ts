@@ -2,6 +2,17 @@ import { type Db, ObjectId } from "mongodb";
 import { RecommendationSchema } from "@/models";
 import { COLLECTIONS } from "./constants";
 
+/**
+ * Creates a personalized course recommendation for a user based on their engagement history.
+ *
+ * Algorithm:
+ * 1. If user has engagement history → recommend a course with matching difficulty level
+ * 2. If no engagement history → recommend the newest course (popular fallback)
+ *
+ * @param userId - MongoDB ObjectId of the user to generate recommendation for
+ * @param db - MongoDB database connection instance
+ * @returns The created recommendation object, or null if no suitable course found
+ */
 export async function createRecommendation(userId: ObjectId, db: Db) {
   const latestEngagement = await db
     .collection(COLLECTIONS.ENGAGEMENTS)
