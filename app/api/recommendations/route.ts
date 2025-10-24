@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
-import { createSuccessResponse, handleApiError } from "@/lib/api-helpers";
-import { logger } from "@/lib/logger";
-import { queryRecommendations } from "@/lib/queries";
+import { createSuccessResponse, handleApiError } from "@/lib/api/helpers";
+import { queryRecommendations } from "@/lib/data/queries";
+import { logger } from "@/lib/shared/logger";
 
 export async function GET(request: NextRequest) {
   const { pathname } = request.nextUrl;

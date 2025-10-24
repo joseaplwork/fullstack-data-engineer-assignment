@@ -3,7 +3,7 @@ import {
   queryCourses,
   queryEngagementsWithDetails,
   queryRecommendations,
-} from "@/lib/queries";
+} from "@/lib/data/queries";
 import type { Course, EngagementWithDetails, Recommendation } from "@/models";
 
 export default async function Home() {

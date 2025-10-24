@@ -32,9 +32,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getCoursePerformance } from "@/lib/get-course-performance";
-import { getRecommendationStats } from "@/lib/get-recommendation-stats";
-import { formatPercentage, formatTime, formatTimeSpent } from "@/lib/utils";
+import { getCoursePerformance } from "@/lib/business/course-performance";
+import { getRecommendationStats } from "@/lib/business/recommendation-stats";
+import {
+  formatPercentage,
+  formatTime,
+  formatTimeSpent,
+} from "@/lib/shared/utils";
 import type { Course, EngagementWithDetails, Recommendation } from "@/models";
 
 interface Props {

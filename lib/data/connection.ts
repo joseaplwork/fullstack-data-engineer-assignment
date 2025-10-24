@@ -1,8 +1,9 @@
 import { MongoClient } from "mongodb";
-import { databaseName, mongoUri } from "@/env";
-import { DatabaseError } from "./errors";
+import { env } from "@/env";
+import { DatabaseError } from "../api/errors";
 
 let mongoClient: MongoClient | null = null;
+const { MONGODB_URI: mongoUri, DATABASE_NAME: databaseName } = env;
 
 /**
  * Establishes a singleton MongoDB connection with connection pooling.

@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { isDevelopment } from "@/env";
+import { logger } from "../shared/logger";
 import {
   type ApiErrorResponse,
   type ApiSuccessResponse,
   NotFoundError,
   ValidationError,
 } from "./errors";
-import { logger } from "./logger";
 
 /**
  * Creates a successful API response with the provided data and a timestamp.

@@ -1,5 +1,5 @@
-import { connectToDatabase, disconnectDatabase } from "../lib/mongodb";
-import { generateSeedData } from "../lib/seed-data";
+import { connectToDatabase, disconnectDatabase } from "../lib/data/connection";
+import { generateSeedData } from "../lib/data/seed";
 
 async function generateData() {
   try {

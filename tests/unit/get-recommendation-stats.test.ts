@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { describe, expect, it } from "vitest";
-import { getRecommendationStats } from "@/lib/get-recommendation-stats";
+import { getRecommendationStats } from "@/lib/business/recommendation-stats";
 import { createMockEngagement, createMockRecommendation } from "../setup";
 
 describe("getRecommendationStats", () => {

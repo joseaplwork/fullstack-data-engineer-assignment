@@ -1,10 +1,10 @@
 import { ObjectId } from "mongodb";
 import type { NextRequest } from "next/server";
-import { createSuccessResponse, handleApiError } from "@/lib/api-helpers";
-import { createRecommendation } from "@/lib/create-recommendation";
-import { logger } from "@/lib/logger";
-import { connectToDatabase } from "@/lib/mongodb";
-import { ObjectIdSchema } from "@/lib/validation";
+import { createSuccessResponse, handleApiError } from "@/lib/api/helpers";
+import { ObjectIdSchema } from "@/lib/api/validation";
+import { createRecommendation } from "@/lib/business/recommendations";
+import { connectToDatabase } from "@/lib/data/connection";
+import { logger } from "@/lib/shared/logger";
 
 interface Params {
   params: { userId: string };

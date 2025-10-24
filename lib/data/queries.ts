@@ -1,7 +1,7 @@
 import type { Document } from "mongodb";
-import { connectToDatabase } from "@/lib/mongodb";
 import type { Course, EngagementWithDetails, Recommendation } from "@/models";
-import { COLLECTIONS } from "./constants";
+import { COLLECTIONS } from "../shared/constants";
+import { connectToDatabase } from "./connection";
 
 /**
  * Fetches engagements with enriched user and course data via MongoDB aggregation.

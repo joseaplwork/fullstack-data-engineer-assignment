@@ -1,6 +1,6 @@
 import { type Db, ObjectId } from "mongodb";
 import { RecommendationSchema } from "@/models";
-import { COLLECTIONS } from "./constants";
+import { COLLECTIONS } from "../shared/constants";
 
 /**
  * Creates a personalized course recommendation for a user based on their engagement history.

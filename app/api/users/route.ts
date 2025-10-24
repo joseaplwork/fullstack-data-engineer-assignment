@@ -1,8 +1,8 @@
 import type { NextRequest } from "next/server";
-import { createSuccessResponse, handleApiError } from "@/lib/api-helpers";
-import { COLLECTIONS } from "@/lib/constants";
-import { logger } from "@/lib/logger";
-import { connectToDatabase } from "@/lib/mongodb";
+import { createSuccessResponse, handleApiError } from "@/lib/api/helpers";
+import { connectToDatabase } from "@/lib/data/connection";
+import { COLLECTIONS } from "@/lib/shared/constants";
+import { logger } from "@/lib/shared/logger";
 
 export async function GET(request: NextRequest) {
   const { pathname } = request.nextUrl;

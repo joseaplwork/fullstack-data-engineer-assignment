@@ -1,7 +1,7 @@
 import type { Db } from "mongodb";
 import { ObjectId } from "mongodb";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { createRecommendation } from "@/lib/create-recommendation";
+import { createRecommendation } from "@/lib/business/recommendations";
 import { mockCollection } from "../setup";
 
 describe("createRecommendation", () => {

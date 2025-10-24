@@ -2,8 +2,8 @@ import { faker } from "@faker-js/faker";
 import { type Db, ObjectId } from "mongodb";
 import seedrandom from "seedrandom";
 import type { Course, User } from "@/models";
-import { COLLECTIONS } from "./constants";
-import { createRecommendation } from "./create-recommendation";
+import { createRecommendation } from "../business/recommendations";
+import { COLLECTIONS } from "../shared/constants";
 
 const SEED = "engagement-tracker-2024";
 const rng = seedrandom(SEED);
