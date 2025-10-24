@@ -86,7 +86,7 @@ The project is pre-configured to use Biome with:
    - Implement logic to determine our best and worst courses.
    - Show the top 3 and bottom 3 courses in the dashboard.
 
-4. Production Readiness:
+4. [x] Production Readiness:
 
    - What needs to be done to make this service production ready?
    - Implement and/or document what you deem necessary. Consider aspects such as:
@@ -121,7 +121,3 @@ We want to see and understand:
 
 We expect this assignment to take approximately 2-4 hours to complete. However, feel free to spend more time if you wish to add extra features or polish your solution.
 Please complete the assignment within one week of receiving it.
-
-## Notes/Considerations
-
-[Add your notes, considerations, or things you wanted to do but didn't have time for here]
