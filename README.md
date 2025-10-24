@@ -121,3 +121,8 @@ We want to see and understand:
 
 We expect this assignment to take approximately 2-4 hours to complete. However, feel free to spend more time if you wish to add extra features or polish your solution.
 Please complete the assignment within one week of receiving it.
+
+## Notes/Considerations
+
+For a detailed explanations of all completed tasks, architectural decisions, and production enhancements, please see [CHALLENGE.md](CHALLENGE.md).
+
