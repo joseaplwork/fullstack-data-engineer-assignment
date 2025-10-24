@@ -1,7 +1,6 @@
 import type { NextRequest } from "next/server";
 import { createSuccessResponse, handleApiError } from "@/lib/api/helpers";
-import { connectToDatabase } from "@/lib/data/connection";
-import { COLLECTIONS } from "@/lib/shared/constants";
+import { queryUsers } from "@/lib/data/queries";
 import { logger } from "@/lib/shared/logger";
 
 export async function GET(request: NextRequest) {
@@ -10,8 +9,7 @@ export async function GET(request: NextRequest) {
   try {
     logger.request("GET", pathname);
 
-    const db = await connectToDatabase();
-    const users = await db.collection(COLLECTIONS.USERS).find().toArray();
+    const users = await queryUsers();
 
     return createSuccessResponse({ users }, 200);
   } catch (error) {

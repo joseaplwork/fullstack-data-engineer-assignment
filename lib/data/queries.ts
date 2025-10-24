@@ -1,5 +1,10 @@
 import type { Document } from "mongodb";
-import type { Course, EngagementWithDetails, Recommendation } from "@/models";
+import type {
+  Course,
+  EngagementWithDetails,
+  Recommendation,
+  User,
+} from "@/models";
 import { COLLECTIONS } from "../shared/constants";
 import { connectToDatabase } from "./connection";
 
@@ -76,4 +81,11 @@ export async function queryCourses(): Promise<Course[]> {
   const courses = await db.collection(COLLECTIONS.COURSES).find().toArray();
 
   return courses as Course[];
+}
+
+export async function queryUsers(): Promise<User[]> {
+  const db = await connectToDatabase();
+  const users = await db.collection(COLLECTIONS.USERS).find().toArray();
+
+  return users as User[];
 }
